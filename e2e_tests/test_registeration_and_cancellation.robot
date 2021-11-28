@@ -40,6 +40,21 @@ Verify Submission Inputted Duplicated Data
 	${ACTUAL} =  Get Location
 	Should Be Equal  ${REGISTER_URL}  ${ACTUAL}
 
+Verify Registered Citizen
+	Go To    ${INFO_URL}
+	Input Citizen ID
+	Submit Check Information
+
+Verify Registered Citizen Information
+	Wait Until Page Contains    User information:           
+	Page Should Contain		${CITIZEN_ID}
+	Page Should Contain		${FIRST_NAME}
+	Page Should Contain		${LAST_NAME}
+	Page Should Contain		${BIRTH_DATE}
+	Page Should Contain		${OCCUPATION}
+	Page Should Contain		${PHONE_NUMBER}
+	Page Should Contain		${ADDRESS}
+
 Verify Reservation
 	Go To    ${RESERVE_URL}
     Input Citizen ID
@@ -49,22 +64,26 @@ Verify Reservation
 	${ACTUAL} =  Get Location
 	Should Be Equal  ${BASE_URL}  ${ACTUAL}
 
-Verify Registered Citizen
+Verify Reserved Vaccine
 	Go To    ${INFO_URL}
 	Input Citizen ID
 	Submit Check Information
-
-# Verify Registered Citizen Information
-# 	Page Should Contain "${CITIZEN_ID}"
-# 	Page Should Contain "${FIRST_NAME}"
-# 	Page Should Contain "${LAST_NAME}"
-# 	Page Should Contain "${BIRTH_DATE}"
-# 	Page Should Contain "${OCCUPATION}"
-# 	Page Should Contain "${PHONE_NUMBER}"
-# 	Page Should Contain "${ADDRESS}"
+	Wait Until Page Contains    User information:           
+	Page Should Contain		${SITE_NAME}
+	Page Should Contain		${VACCINE_NAME}
 
 Verify Cancellation
 	Click Button  identifier=cancel__btn
+	${ACTUAL} =  Get Location
+	Should Be Equal  ${BASE_URL}  ${ACTUAL}
+
+Verify Cancelled Vaccine
+	Go To    ${INFO_URL}
+	Input Citizen ID
+	Submit Check Information
+	Wait Until Page Contains    User information:           
+	Page Should Not Contain		${SITE_NAME}
+	Page Should Not Contain		${VACCINE_NAME}
 
 *** Keywords ***
 Open Registration page
